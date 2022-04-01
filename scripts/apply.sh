@@ -30,15 +30,15 @@ function pve_patch() {
 	else
 		if [ -d "$pve_log_folder" ]; then
 			echo "- Removing No Valid Subscription Message for PVE"
-			sed -Ezi.bak "s/!== 'active'/== 'active'/" $proxmoxlib && echo "- Restarting proxy service" && systemctl restart pveproxy.service
-			#sed -i.backup -z "s/res === null || res === undefined || \!res || res\n\t\t\t.data.status.toLowerCase() \!== 'active'/false/g" ${JSLIBFILE}
+			#sed -Ezi.bak "s/!== 'active'/== 'active'/" $proxmoxlib && echo "- Restarting proxy service" && systemctl restart pveproxy.service
+			sed -i.bak -z "s/res === null || res === undefined || \!res || res\n\t\t\t.data.status.toLowerCase() \!== 'active'/false/g" ${proxmoxlib}
 		else 
 			echo "- Removing No Valid Subscription Message for PBS"
 			sed -Ezi.bak "s/!== 'active'/== 'active'/" $proxmoxlib && echo "- Restarting proxy service" && systemctl restart proxmox-backup-proxy.service
 		fi
 	fi
 
-	#systemctl restart pveproxy.service
+	systemctl restart pveproxy.service
   
 	# pvedarkdiscord theme: courtesy of https://github.com/Weilbyte/PVEDiscordDark
 	#bash <(curl -s https://raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh ) install
