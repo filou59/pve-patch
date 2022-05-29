@@ -32,12 +32,12 @@ function pve_patch() {
 	if [ -d "$pve_log_folder" ]; then
 		result=$( grep -B 1 'No valid sub' $proxmoxlib | grep -i 'void' )
 		#echo "Result" $result
-    if [ -n "$result" ]; then      
-      echo "- Removing No Valid Subscription Message Already Done"
-    else  
-      echo "- Removing No Valid Subscription Message for PVE"
-      sed -Ezi.bak "s/(Ext.Msg.show\(\{\s+title: gettext\('No valid sub)/void\(\{ \/\/\1/g" ${proxmoxlib} && systemctl restart pveproxy.service    
-    fi  
+    		if [ -n "$result" ]; then      
+	      		echo "- Removing No Valid Subscription Message Already Done"
+	    	else  
+	      		echo "- Removing No Valid Subscription Message for PVE"
+	      		sed -Ezi.bak "s/(Ext.Msg.show\(\{\s+title: gettext\('No valid sub)/void\(\{ \/\/\1/g" ${proxmoxlib} && systemctl restart pveproxy.service    
+	    	fi  
 		#sed -Ezi.bak "s/!== 'active'/== 'active'/" $proxmoxlib && echo "- Restarting proxy service" && systemctl restart pveproxy.service
 		#sed -i.bak -z "s/res === null || res === undefined || \!res || res\n\t\t\t.data.status.toLowerCase() \!== 'active'/false/g" ${proxmoxlib}
 		
@@ -47,7 +47,7 @@ function pve_patch() {
 	fi
 	#fi
 
-	#systemctl restart pveproxy.service
+	systemctl restart pveproxy.service
   
 	# pvedarkdiscord theme: courtesy of https://github.com/Weilbyte/PVEDiscordDark
 	#bash <(curl -s https://raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh ) install
